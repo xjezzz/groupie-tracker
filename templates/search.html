@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/templates/style1.css">
+    <link rel="icon" href="templates/microphone.png" type="image/png">
+        <title>Groupie-Tracker</title>
+</head>
+<body>
+    <h1 class="title" align="center"><a class="home-link" href="/">GROUPIE TRACKER</a></h1>
+
+    
+      <div class="artists-container">
+        {{range .Data_group}}      
+        <li class="artists">
+          <h4 class="artist-name"><a class="artist-link2" href="/artist?id={{.ID}}">{{.Name}}</a></h4>
+          <a class="artist-link" href="/artist?id={{.ID}}">
+            <img class="artist-image" src="{{.Image}}" alt="{{.Name}} photo">
+          </a>
+        </li>
+    </div>
+    {{end}}
+</body>
+</html>

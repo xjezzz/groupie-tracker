@@ -1,0 +1,141 @@
+@font-face {
+    font-family: Creepster;
+    src: url(Creepster-Regular.ttf);
+}
+
+body{
+    background-color: rgba(41, 36, 36, 0.733);    
+}
+
+.artistDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+.home{
+    position: relative;
+    margin-left: 20px;
+    color: aliceblue;
+    text-decoration:none;
+    font-family: Creepster;
+    font-size: 50px;
+}
+
+.artistName{
+    color: aliceblue;
+    font-family: Creepster;
+    font-size: 40px;
+}
+
+.artistName p3{
+    margin-left: auto;
+}
+.artistPhoto{
+    border-radius: 200px;
+}
+.artistMembers{
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.artistMembers .hMembers{
+    margin-right: 290px;
+}
+
+.artistLocDate{
+    display: flex;
+}
+
+.artistLocDate .hLocationsDates{
+    margin-right: 20px;
+}
+
+
+
+.hMembers{
+    margin: auto;
+}
+
+.pMembers{
+    color: aliceblue;
+    font-size: 40px;
+    border-radius: 50px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.199);
+    font-family: Creepster;
+
+}
+.artistMembers .memberss{
+    text-align: center;
+    color: aliceblue;
+    font-size: 20px;
+    background-color: rgba(73, 65, 65, 0.486);
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: auto;
+    margin-left: auto;
+
+}
+
+.pLocationsDates{
+    color: aliceblue;
+    font-size: 40px;
+    border-radius: 50px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.199);
+    font-family: Creepster;
+}
+.hLocationsDates{
+    margin: auto;
+}
+.artistLocDate .locDates{
+    text-align: center;
+    color: aliceblue;
+    font-size: 20px;
+    background-color: rgba(73, 65, 65, 0.486);
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: auto;
+    margin-left: auto;
+
+}
+.DateAlbum {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  
+  .DateRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .Value {
+    color: aliceblue;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  .Label {
+    color: aliceblue;
+    font-size: 25px;
+    border-radius: 50px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.199);
+    font-family: Creepster;
+
+  }
+  
+.map {
+    width: 500px;
+    height: 400px;
+    margin: auto;
+}

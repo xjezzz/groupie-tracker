@@ -1,0 +1,4 @@
+package artists
+
+func searchBar() {
+}

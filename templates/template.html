@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/templates/style1.css">
+  <link rel="icon" href="templates/microphone.png" type="image/png">
+  <title>Groupie-Tracker</title>
+</head>
+
+<body>
+  <h1 class="title" align="center"><a class="home-link" href="/">GROUPIE TRACKER</a></h1>
+  
+  
+  <div class="search-container">
+    <form class="cearch-box" action="/filtered" method="POST" autocomplete="off">
+      <input class="search_input" type="search" placeholder="Search here…" name="search" list = "asd">
+      <i class="fa fa-search"></i>
+      <datalist id = "asd">
+        {{range .Artists}} 
+        <option value="{{.Name}}">{{.Name}} - artist/band name</option>
+        {{range .Members}}
+              <option value="{{.}}">{{.}} - members</option>
+              {{end}}
+              {{range $date, $locations := .DatesLocations}}
+              <option value="{{$date}}">{{$date}} - location</option>
+              {{end}}
+              <option value="{{.FirstAlbum}}">{{.FirstAlbum}} - first album</option>
+              <option value="{{.CreationDate}}">{{.CreationDate}} - cretion date</option>
+              
+              {{end}}
+            </datalist> 
+          </form>
+        </div>
+        
+
+        <button id="filterButton" class="mobileFilterButton">FILTERS</button>
+        
+  <div class="menu">
+        <fieldset>
+          <legend class="leg" align="center">Filter</legend>
+    <form class="form" method="post" action="/filtered" type="submit" id="filterForm">
+      <div class="form_container">
+          <div class="range">
+            <label class="range-label">Creation Date</label>
+            <div class="sliders_control">
+              <div class="range_highlight"></div>
+              <input class="fromSlider" name="fromSlider" id="fromSlider" type="range" value="{{.Mincreat}}" min="{{.Mincreat}}" max="{{.Maxcreat}}" />
+              <input class="toSlider" name="toSlider" id="toSlider" type="range" value="{{.Maxcreat}}" min="{{.Mincreat}}" max="{{.Maxcreat}}" />
+            </div>
+            <div class="span-range">
+              <div class="range-wrapper2">
+                <span id="fromValue" class="range-value">{{.Mincreat}}</span>
+              </div>
+              <div class="range-wrapper2">
+                <span id="toValue" class="range-value">{{.Maxcreat}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="range2">
+            <label class="range-label">First Album</label>
+            <div class="sliders_control2">
+              <div class="range_highlight2"></div>
+              <input class="fromSlider" name="fromSlider2" id="fromSlider2" type="range" value="{{.Minalb}}" min="{{.Minalb}}" max="{{.Maxalb}}" />
+              <input class="toSlider" name="toSlider2" id="toSlider2" type="range" value="{{.Maxalb}}" min="{{.Minalb}}" max="{{.Maxalb}}" />
+            </div>
+            <div class="span-range">
+              <div class="range-wrapper">
+                <span id="fromValue2" class="range-value">{{.Minalb}}</span>
+              </div>
+              <div class="range-wrapper">
+                <span id="toValue2" class="range-value">{{.Maxalb}}</span>
+              </div>
+            </div>
+          </div>
+          <h style="font-size:25px; color: aliceblue; text-align: center; ">Members</h>
+          <div class="checkboxes" style="color:aliceblue">
+            <label class="form-control">
+              <input type="checkbox" name="1"/>
+              1
+            </label>
+            <label class="form-control">
+              <input type="checkbox" name="2"  />
+              2
+            </label>
+            <label class="form-control">
+              <input type="checkbox" name="3"  />
+              3
+            </label>
+            <label class="form-control">
+              <input type="checkbox" name="4"  />
+              4
+            </label>
+          <label class="form-control">
+            <input type="checkbox" name="5"  />
+            5
+          </label>
+          <label class="form-control">
+            <input type="checkbox" name="6"  />
+            6
+          </label>
+          <label class="form-control">
+            <input type="checkbox" name="7"  />
+            7
+          </label>
+          <label class="form-control">
+            <input type="checkbox" name="8"  />
+            8
+          </label>
+        </div>
+      </div>
+      <div class="select-country">
+        <select class="countries" id="selectCountry" name="country">
+          <option selected disabled hidden>Select</option>
+          {{range .Country}}
+          <option name="country" value="{{.}}">{{.}}</option>
+          {{end}}
+        </select>
+      </div>
+      <div class="tooltip">
+        <input type="submit" name="submit" value="Submit">
+        <button type="button" id="clearFilterBtn">Clear</button>
+        <span class="tooltiptext" id="filterMessage">FILTER IS EMPTY</span>
+      </div>
+    </form>
+  </fieldset>
+</div>
+<div id="filterModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-menu">
+      <form id="modalForm" method="post" action="/filtered" type="submit" id="form">
+        <div class="form_container">
+          <div class="range">
+            <label class="range-label">Creation Date</label>
+            <div class="sliders_control">
+              <div class="range_highlight"></div>
+              <input class="fromSlider" name="fromSlider" id="fromSlider" type="range" value="{{.Mincreat}}" min="{{.Mincreat}}" max="{{.Maxcreat}}" />
+              <input class="toSlider" name="toSlider" id="toSlider" type="range" value="{{.Maxcreat}}" min="{{.Mincreat}}" max="{{.Maxcreat}}" />
+            </div>
+            <div class="span-range">
+              <div class="range-wrapper2">
+                <span id="fromValue" class="range-value">{{.Mincreat}}</span>
+              </div>
+              <div class="range-wrapper2">
+                <span id="toValue" class="range-value">{{.Maxcreat}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="range2">
+            <label class="range-label">First Album</label>
+            <div class="sliders_control2">
+              <div class="range_highlight2"></div>
+              <input class="fromSlider" name="fromSlider2" id="fromSlider2" type="range" value="{{.Minalb}}" min="{{.Minalb}}" max="{{.Maxalb}}" />
+              <input class="toSlider" name="toSlider2" id="toSlider2" type="range" value="{{.Maxalb}}" min="{{.Minalb}}" max="{{.Maxalb}}" />
+            </div>
+            <div class="span-range">
+              <div class="range-wrapper">
+                <span id="fromValue2" class="range-value">{{.Minalb}}</span>
+              </div>
+              <div class="range-wrapper">
+                <span id="toValue2" class="range-value">{{.Maxalb}}</span>
+              </div>
+            </div>
+          </div>
+          <h style="font-size:25px; color: aliceblue; text-align: center; ">Members</h>
+          <div class="checkboxes" style="color:aliceblue">
+            <label class="form-control">
+              <input type="checkbox" name="1"/>
+              1
+            </label>
+            <label class="form-control">
+              <input type="checkbox" name="2"  />
+              2
+            </label>
+            <label class="form-control">
+              <input type="checkbox" name="3"  />
+              3
+            </label>
+            <label class="form-control">
+              <input type="checkbox" name="4"  />
+              4
+            </label>
+          <label class="form-control">
+            <input type="checkbox" name="5"  />
+            5
+          </label>
+          <label class="form-control">
+            <input type="checkbox" name="6"  />
+            6
+          </label>
+          <label class="form-control">
+            <input type="checkbox" name="7"  />
+            7
+          </label>
+          <label class="form-control">
+            <input type="checkbox" name="8"  />
+            8
+          </label>
+        </div>
+      </div>
+      <div class="select-country">
+        <select class="countries" id="selectCountry" name="country">
+          <option selected disabled hidden>Select</option>
+          {{range .Country}}
+          <option name="country" value="{{.}}">{{.}}</option>
+          {{end}}
+        </select>
+      </div>
+      <div class="tooltip">
+        <input type="submit" name="submit" value="Submit">
+        <button type="button" id="clearFilterBtn">Clear</button>
+        <span class="tooltiptext" id="filterMessage">FILTER IS EMPTY</span>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<script>
+  const fromSlider = document.getElementById('fromSlider');
+    const toSlider = document.getElementById('toSlider');
+    const rangeHighlight = document.querySelector('.range_highlight');
+    const fromSlider2 = document.getElementById('fromSlider2');
+    const toSlider2 = document.getElementById('toSlider2');
+    const rangeHighlight2 = document.querySelector('.range_highlight2');
+    const filterForm = document.getElementById('filterForm');
+    const modalMenu = document.querySelector('.modal-menu');
+    const modalContent = document.getElementById('modalContent');
+    const modalDialog = document.querySelector('.modal-content');
+    const modalForm = document.getElementById('modalForm');
+
+    let isDragging = false;
+
+    fromSlider.addEventListener('mousedown', () => {
+      isDragging = true;
+    });
+
+    toSlider.addEventListener('mousedown', () => {
+      isDragging = true;
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    document.addEventListener('mousemove', () => {
+      if (isDragging) {
+        updateRangeHighlight();
+      }
+    });
+
+    fromSlider.addEventListener('input', () => {
+      if (parseInt(fromSlider.value) >= parseInt(toSlider.value)) {
+        fromSlider.value = parseInt(toSlider.value) - 1;
+      }
+      updateRangeHighlight();
+    });
+    fromSlider2.addEventListener('input', () => {
+      if (parseInt(fromSlider2.value) >= parseInt(toSlider2.value)) {
+        fromSlider2.value = parseInt(toSlider2.value) - 1;
+      }
+      updateRangeHighlight2();
+    });
+
+    toSlider.addEventListener('input', () => {
+      if (parseInt(toSlider.value) <= parseInt(fromSlider.value)) {
+        toSlider.value = parseInt(fromSlider.value) + 1;
+      }
+      updateRangeHighlight();
+    });
+    toSlider2.addEventListener('input', () => {
+      if (parseInt(toSlider2.value) <= parseInt(fromSlider2.value)) {
+        toSlider2.value = parseInt(fromSlider2.value) + 1;
+      }
+      updateRangeHighlight2();
+    });
+    function updateRangeHighlight() {
+      const fromValue = parseInt(fromSlider.value);
+      const toValue = parseInt(toSlider.value);
+
+      document.getElementById('fromValue').textContent = fromValue;
+      document.getElementById('toValue').textContent = toValue;
+      
+      const min = parseInt(fromSlider.min);
+      const max = parseInt(fromSlider.max);
+      
+      const fromPosition = ((fromValue - min) / (max - min)) * 100;
+      const toPosition = ((toValue - min) / (max - min)) * 100;
+      
+      rangeHighlight.style.left = `${fromPosition}%`;
+      rangeHighlight.style.width = `${toPosition - fromPosition}%`;
+    }
+    function updateRangeHighlight2() {
+      const fromValue2 = parseInt(fromSlider2.value);
+      const toValue2 = parseInt(toSlider2.value);
+
+      document.getElementById('fromValue2').textContent = fromValue2;
+      document.getElementById('toValue2').textContent = toValue2;
+
+      const min = parseInt(fromSlider2.min);
+      const max = parseInt(fromSlider2.max);
+
+      const fromPosition2 = ((fromValue2 - min) / (max - min)) * 100;
+      const toPosition2 = ((toValue2 - min) / (max - min)) * 100;
+
+      rangeHighlight2.style.left = `${fromPosition2}%`;
+      rangeHighlight2.style.width = `${toPosition2 - fromPosition2}%`;
+    }
+    filterButton.addEventListener('click', function() {
+    filterModal.style.display = 'block';
+    hideFilters();
+  });
+
+    document.getElementById('clearFilterBtn').addEventListener('click', function() {
+    document.getElementById('filterForm').reset(); // Сбросить все значения формы
+    updateRangeHighlight(); // Обновить отображение слайдеров
+    updateRangeHighlight2();
+  });
+  
+</script>
+    
+    <div class="artists-container">
+    {{range .Artists}}
+    <li class="artists">
+      <h4 class="artist-name"><a class="artist-link2" href="/artist?id={{.ID}}">{{.Name}}</a></h4>
+      <a class="artist-link" href="/artist?id={{.ID}}">
+        <img class="artist-image" src="{{.Image}}" alt="{{.Name}} photo">
+        <span class="artist-span">Artist page</span>
+      </a>
+    </li>
+    {{end}}
+  </div>
+  <script>
+    
+    
+    document.addEventListener("DOMContentLoaded", function() {
+  var filterButton = document.getElementById('filterButton');
+  var mobileFilterButton = document.getElementById('filterButton');
+  var filterModal = document.getElementById('filterModal');
+  var closeBtn = document.getElementsByClassName('close')[0];
+  var menuFieldset = document.querySelector('.menu fieldset');
+
+  filterButton.addEventListener('click', function() {
+    filterModal.style.display = 'block';
+    hideFilters();
+  });
+
+  mobileFilterButton.addEventListener('click', function() {
+    filterModal.style.display = 'block';
+  });
+
+  closeBtn.addEventListener('click', function() {
+    filterModal.style.display = 'none';
+    showFilters();
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target === filterModal) {
+      filterModal.style.display = 'none';
+      showFilters();
+    }
+  });
+
+  var fromSlider = document.getElementById('fromSlider');
+  var toSlider = document.getElementById('toSlider');
+  var rangeHighlight = document.querySelector('.range_highlight');
+  var fromSlider2 = document.getElementById('fromSlider2');
+  var toSlider2 = document.getElementById('toSlider2');
+  var rangeHighlight2 = document.querySelector('.range_highlight2');
+
+  fromSlider.addEventListener('input', function() {
+    updateRangeHighlight();
+  });
+
+  toSlider.addEventListener('input', function() {
+    updateRangeHighlight();
+  });
+
+  fromSlider2.addEventListener('input', function() {
+    updateRangeHighlight2();
+  });
+
+  toSlider2.addEventListener('input', function() {
+    updateRangeHighlight2();
+  });
+
+  function updateRangeHighlight() {
+    var fromValue = parseInt(fromSlider.value);
+    var toValue = parseInt(toSlider.value);
+
+    var min = parseInt(fromSlider.min);
+    var max = parseInt(fromSlider.max);
+
+    var fromPosition = ((fromValue - min) / (max - min)) * 100;
+    var toPosition = ((toValue - min) / (max - min)) * 100;
+
+    rangeHighlight.style.left = fromPosition + "%";
+    rangeHighlight.style.width = (toPosition - fromPosition) + "%";
+  }
+
+  function updateRangeHighlight2() {
+    var fromValue2 = parseInt(fromSlider2.value);
+    var toValue2 = parseInt(toSlider2.value);
+
+    var min = parseInt(fromSlider2.min);
+    var max = parseInt(fromSlider2.max);
+
+    var fromPosition2 = ((fromValue2 - min) / (max - min)) * 100;
+    var toPosition2 = ((toValue2 - min) / (max - min)) * 100;
+
+    rangeHighlight2.style.left = fromPosition2 + "%";
+    rangeHighlight2.style.width = (toPosition2 - fromPosition2) + "%";
+  }
+
+  function hideFilters() {
+    // Добавьте код для скрытия фильтров
+  }
+
+  function showFilters() {
+    // Добавьте код для показа фильтров
+  }
+
+  document.getElementById('clearFilterBtn').addEventListener('click', function() {
+    document.getElementById('filterForm').reset(); // Сбросить все значения формы
+    updateRangeHighlight(); // Обновить отображение слайдеров
+    updateRangeHighlight2();
+  });
+});
+
+
+
+
+
+  </script>
+</body>
+
+</html>

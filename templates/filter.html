@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/templates/style1.css">
+    <title>Groupie-Tracker</title>
+    
+</head>
+
+<body>
+    <h1 class="title" align="center"><a class="home-link" href="/">GROUPIE TRACKER</a></h1>  
+
+    <div class="artists-container">
+        {{range .}}
+        <li class="artists">
+            <h4 class="artist-name"><a class="artist-link2" href="/artist?id={{.ID}}">{{.Name}}</a></h4>
+            <a class="artist-link" href="/artist?id={{.ID}}">
+                <img class="artist-image" src="{{.Image}}" alt="{{.Name}} photo">
+
+            </a>
+        </li>
+        {{end}}
+    </div>
+    <script>
+        const range1 = document.getElementById("range1");
+        const rangeValue1 = document.getElementById("rangeValue1");
+        const rangeContainer1 = document.querySelector(".range-slider");
+
+        range1.addEventListener("input", function() {
+            rangeValue1.textContent = range1.value;
+            updateRangeValuePosition(range1, rangeValue1, rangeContainer1);
+        });
+
+        range1.addEventListener("mousedown", function() {
+            rangeValue1.style.visibility = "visible";
+        });
+
+        range1.addEventListener("mouseup", function() {
+            rangeValue1.style.visibility = "hidden";
+        });
+
+        range1.addEventListener("keydown", function() {
+            rangeValue1.style.visibility = "visible";
+            rangeValue1.textContent = range1.value;
+            updateRangeValuePosition(range1, rangeValue1, rangeContainer1);
+        });
+
+        range1.addEventListener("keyup", function() {
+            rangeValue1.style.visibility = "hidden";
+        });
+        
+
+        const range2 = document.getElementById("range2");
+        const rangeValue2 = document.getElementById("rangeValue2");
+        const rangeContainer2 = document.querySelectorAll(".range-slider")[1];
+
+        range2.addEventListener("input", function() {
+            rangeValue2.textContent = range2.value;
+            updateRangeValuePosition(range2, rangeValue2, rangeContainer2);
+        });
+
+        range2.addEventListener("mousedown", function() {
+            rangeValue2.style.visibility = "visible";
+        });
+
+        range2.addEventListener("mouseup", function() {
+            rangeValue2.style.visibility = "hidden";
+        });
+
+        range2.addEventListener("keydown", function() {
+            rangeValue2.style.visibility = "visible";
+            rangeValue2.textContent = range2.value;
+            updateRangeValuePosition(range2, rangeValue2, rangeContainer2);
+        });
+
+        range2.addEventListener("keyup", function() {
+            rangeValue2.style.visibility = "hidden";
+        });
+
+        function updateRangeValuePosition(range, rangeValue, rangeContainer) {
+            const rangeRect = range.getBoundingClientRect();
+            const rangeThumbWidth = parseFloat(getComputedStyle(range).getPropertyValue("--thumb-width"));
+            const thumbOffset = (range.value - range.min) / (range.max - range.min) * (range.offsetWidth - rangeThumbWidth);
+            const minOffset = rangeThumbWidth / 2;
+            const maxOffset = range.offsetWidth - rangeThumbWidth / 2;
+            const leftOffset = Math.min(Math.max(minOffset, thumbOffset), maxOffset);
+            rangeValue.style.left = (rangeRect.left + leftOffset - rangeContainer.offsetLeft) + "px";
+        }
+
+        window.addEventListener("resize", function() {
+            updateRangeValuePosition(range1, rangeValue1, rangeContainer1);
+            updateRangeValuePosition(range2, rangeValue2, rangeContainer2);
+        });
+
+        updateRangeValuePosition(range1, rangeValue1, rangeContainer1);
+        updateRangeValuePosition(range2, rangeValue2, rangeContainer2);
+        if (range1.value === range1.defaultValue) {
+            range1.disabled = true;
+        }
+        
+        if (range2.value === range2.defaultValue) {
+            range2.disabled = true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/templates/style2.css">
+    <link rel="icon" href="templates/microphone.png" type="image/png">
+    <title>{{.Name}}</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=c9ad80bd-38f5-4f83-b299-5cb205880e94&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body class="artistBody">
+    <div>
+        <h2 >
+            <a class="home" href="/">Home</a>
+        </h2>
+    </div>
+    
+    <div class="artistDiv">
+        <img class="artistPhoto" src="{{.Image}}" alt="{{.Name}} photo">
+        <h1 class="artistName" align="center">{{.Name}}</h1> 
+            <div class="membersContainer">
+                <div class="artistMembers">
+                    <h5 class="hMembers"><p2 class="pMembers">Members</p2></h5>
+                        <div class="memberss">
+                            {{range .Members}}
+                                {{.}}
+                                <br>
+                            {{end}}
+                        </div>
+                </div>
+                <div class="artistLocDate">
+                    <h3 class="hLocationsDates"><p3 class="pLocationsDates">Locations - Dates</p3></h3>
+                        <div class="locDates">
+                            {{range $loc, $date := .DatesLocations}}
+                            <h class="resLocDate">{{ title (replace2 (replace1 $loc "-" " ") "_" " ")}}:
+                            {{range $date}}
+                                {{.}}
+                                <br>
+                                {{end}}
+                                {{end}}
+                            </h>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="DateAlbum">
+        <div class="DateRow">
+            <div class="Label">Creation Date</div>
+            <div class="Value">{{.CreationDate}}</div>
+        </div>
+        <div class="DateRow">
+            <div class="Label">First Album</div>
+            <div class="Value">{{.FirstAlbum}}</div>
+        </div>
+    </div>
+
+    
+    <div id="map" class="map">
+      <script type="text/javascript">
+        ymaps.ready(init);
+    
+        function init() {
+          var map = new ymaps.Map("map", {
+            center: [55.753215, 37.622504], // Координаты по умолчанию (Москва)
+            zoom: 2.5, // Начальный масштаб карты
+            controls: []
+          });
+          {{range $cc, $coord := .Geolocation}}
+            var coordinates = [{{$coord.Latitude}}, {{$coord.Longitude}}];
+            var marker = new ymaps.Placemark(coordinates, {
+              hintContent: "{{$cc}}",
+              balloonContentFooter: "{{.}}",
+    
+            });
+            map.geoObjects.add(marker);
+            map.setBounds(map.geoObjects.getBounds())
+        {{end}}
+      }
+    </script>
+      
+    
+     </div>
+</body>
+</html>
+
